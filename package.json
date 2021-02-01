@@ -1,0 +1,10 @@
+{
+  "name": "ud_typescript_web_framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+
+  },
+  "dependencies": {}
+}
