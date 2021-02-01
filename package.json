@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "scripts": {},
-  "dependencies": {},
+  "scripts": {
+    "start:db": "json-server -w db.json",
+    "start:parcel": "parcel index.html",
+    "web-start": "concurrently"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
   "devDependencies": {
     "typescript": "^4.1.3"
   }

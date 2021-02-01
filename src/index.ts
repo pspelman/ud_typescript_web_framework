@@ -1,12 +1,10 @@
-import {User, UserFields} from "./models/User";
+import axios from 'axios'
 
-const user = new User({name: "Phil", age: 20})
+axios.post('http://localhost:3000/users', {
+	name: 'phil',
+	age: 24
+})
 
-const name = user.get(UserFields.name)
-const age = user.get(UserFields.age)
-
-console.log(`name: `, name)
-console.log(`age: `, age)
-
-user.set({'name': 'John'})
-
+axios.get("http://localhost:3000/users/1").then(res => {
+	console.log(`response: `, res)
+})
