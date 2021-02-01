@@ -1,6 +1,9 @@
+import axios, {AxiosResponse} from "axios";
+
 interface UserProps {
-	name?: string;
-	age?: number;
+	id?: number
+	name?: string
+	age?: number
 }
 
 export enum UserFields {
@@ -13,8 +16,7 @@ type Callback = () => void
 export class User {
 	events: {[key: string]: Callback[]} = {}
 
-	constructor(private data: UserProps) {
-	}
+	constructor(private data: UserProps) {}
 
 	get(propName: string): number | string {
 		return this.data[propName]
@@ -34,11 +36,26 @@ export class User {
 		// check if we have an event of this name
 		const handlers = this.events[eventName]
 		if (!handlers || handlers.length === 0) {
-			// no handlers
-			return
+			return  // no handlers
 		}
 		handlers.forEach(callback => callback())
 	}
 
+	fetch(): void {
+		axios.get(`http://localhost:3000/users/${this.get('id')}`)
+			.then((response: AxiosResponse): void => {
+				this.set(response.data)
+			})
+	}
+
+	save(): void {
+		const id = this.get('id')
+		if (id) {
+			axios.put(`http://localhost:3000/users/${id}`, this.data)
+		}
+		else {
+			axios.post(`http://localhost:3000/users/`, this.data)
+		}
+	}
 
 }
