@@ -1,7 +1,10 @@
 import axios, {AxiosPromise} from "axios";
-import {UserProps} from "./User";
 
-class Sync {
+interface HasId {
+	id?: number
+}
+
+export class Sync<T extends HasId> {
 	constructor(public rootUrl: string) {
 	}
 
@@ -9,7 +12,7 @@ class Sync {
 		return axios.get(`${this.rootUrl}/users/${id}`)
 	}
 
-	save(data: UserProps): AxiosPromise {
+	save(data: T): AxiosPromise {
 		const {id} = data
 		if (id) {
 			return axios.put(`${this.rootUrl}/users/${id}`, data)

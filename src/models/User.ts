@@ -1,4 +1,6 @@
 import {Eventing} from "./Eventing";
+import {Sync} from "./Sync";
+import {Attributes} from "./Attributes";
 
 export interface UserProps {
 	id?: number
@@ -15,16 +17,24 @@ export enum UserFields {
 export class User {
 
 	public events: Eventing = new Eventing()
+	public sync: Sync<UserProps> = new Sync<UserProps>("http://localhost:3000")
+	public attributes: Attributes<UserProps>
 
-	constructor(private data: UserProps) {}
-
-	get(propName: string): number | string {
-		return this.data[propName]
+	constructor(attrs: UserProps) {
+		this.attributes = new Attributes<UserProps>(attrs)
 	}
 
-	set(update: UserProps): void {
-		Object.assign(this.data, update)
-	}
+
+
+	// constructor(private data: UserProps) {}
+	//
+	// get(propName: string): number | string {
+	// 	return this.data[propName]
+	// }
+	//
+	// set(update: UserProps): void {
+	// 	Object.assign(this.data, update)
+	// }
 
 
 }
