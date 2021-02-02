@@ -1,19 +1,20 @@
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosPromise} from "axios";
+import {UserProps} from "./User";
 
 class Sync {
-	fetch(): void {
-		axios.get(`http://localhost:3000/users/${this.get('id')}`)
-			.then((response: AxiosResponse): void => {
-				this.set(response.data)
-			})
+	constructor(public rootUrl: string) {
 	}
 
-	save(): void {
-		const id = this.get('id')
+	fetch(id: number): AxiosPromise {
+		return axios.get(`${this.rootUrl}/users/${id}`)
+	}
+
+	save(data: UserProps): AxiosPromise {
+		const {id} = data
 		if (id) {
-			axios.put(`http://localhost:3000/users/${id}`, this.data)
+			return axios.put(`${this.rootUrl}/users/${id}`, data)
 		} else {
-			axios.post(`http://localhost:3000/users/`, this.data)
+			return axios.post(`${this.rootUrl}/users/`, data)
 		}
 	}
 
