@@ -1,10 +1,9 @@
-import {User, UserProps} from "./User";
 import {Eventing} from "./Eventing";
 import axios, {AxiosResponse} from "axios";
 
 export class Collection<T, K> {
 	events: Eventing = new Eventing()
-	models: User[] = []
+	models: T[] = []
 
 	constructor(
 		public rootUrl: string,
@@ -27,7 +26,6 @@ export class Collection<T, K> {
 				// create the users with response.data
 				console.log("Response: ", response)
 				response.data.forEach((props: K) => {
-
 					this.models.push(this.deserialize(props))
 				})
 				this.trigger('change')  // make sure the app knows
