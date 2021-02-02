@@ -1,13 +1,8 @@
-import {User} from "./models/User";
-import axios from 'axios'
-
-// axios.post('http://localhost:3000/users', {
-// 	name: 'phil',
-// 	age: 24
-// })
-
-// axios.get("http://localhost:3000/users/1").then(res => {
-// 	console.log(`response: `, res)
-// })
+import {Collection} from "./models/Collection";
 
 
+const collection = new Collection('http://localhost:3000/users')
+collection.on('change', () => {
+	console.log(`got users!  `, collection.models)
+})
+collection.fetch()
