@@ -12,13 +12,29 @@ import axios from 'axios'
 
 
 const user = new User({id: 1})
-user.set({name: "A new man", age: 27})
-user.save()
+
+
+user.on('change', () => {
+	console.log("User was changed | ", user)
+})
 
 user.fetch()
-setTimeout(() => {
-	console.log(user)
-}, 1000)
+
+const user2 = new User({id: 1})
+user2.get('name')
+
+user2.set({name: "Jim"})
+user2.on('save', () => {
+	console.log(`user was saved successfully`, )
+})
+user2.save()
+
+// user.trigger('change')
+
+// user.set({'name': "new NAME"})
+// user.attributes.set({name: 'Joe'})
+// console.log(`user.get('name'): `, user.get('name'))
+
 
 // const user2 = new User({name: 'john', age: 32})
 // user2.save()

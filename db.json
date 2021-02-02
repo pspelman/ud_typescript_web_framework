@@ -2,8 +2,7 @@
   "users": [
     {
       "id": 1,
-      "name": "A new man",
-      "age": 27
+      "name": "Jim"
     },
     {
       "name": "john",
