@@ -1,28 +1,28 @@
-import {User} from "../models/User";
+import {View} from "./View";
 
 type Callback = () => void;
 
-export class UserForm {
-	constructor(
-		public parent: Element,
-		public model: User
-	) {
-	}
+export class UserForm extends View{
 
 	eventsMap(): {[key: string]: Callback} {
 		return {
-			'click:button': this.onButtonClick,
-			'mouseover:h1': this.onHeaderHover
+			'click:.set-age': this.onSetAgeClick,
+			'click:.set-name': this.onSetNameClick,
 		}
 	}
 
-	onHeaderHover = () => {
-		console.log(`you went over the header!`, )
+	onSetNameClick = (): void => {
+		const input = this.parent.querySelector('input')
+		let newName = input.value;
+		console.log(`current name: `, newName)
+		this.model.set({name: newName})
 
 	}
 
-	onButtonClick = () => {
-		console.log(`button was clicked`, )
+	onSetAgeClick = (): void => {
+		console.log(`setting the age`, )
+		this.model.setRandomAge()
+
 	}
 
 	template(): string {
@@ -33,28 +33,12 @@ export class UserForm {
 			<div>Age: ${this.model.get('age')}</div>
 			<br/>
 			<input/>
-			<button>Click me</button>
+			<button class="set-name">Save name</button>
+			<button class="set-age">Set Random Age</button>
 		</div>
 	`
 	}
 
-	bindEvents(fragment: DocumentFragment): void {
-		const eventsMap = this.eventsMap()
-		for (let eventKey in eventsMap) {
-			const [eventName, selector] = eventKey.split(':')
-			fragment.querySelectorAll(selector).forEach(element => {
-				element.addEventListener(eventName, eventsMap[eventKey])
-			})
-		}
-
-	}
 
 
-	render(): void {
-		// have to take the string and convert it into HTML
-		const templateElement = document.createElement('template')
-		templateElement.innerHTML = this.template()
-		this.bindEvents(templateElement.content)
-		this.parent.append(templateElement.content)
-	}
 }
