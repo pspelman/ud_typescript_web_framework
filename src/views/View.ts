@@ -1,9 +1,16 @@
-import {User} from "../models/User";
+import {Model} from "../models/Model";
+
 type Callback = () => void
-export abstract class View {
+
+// interface ViewModel {
+// 	on(eventName: string, Callback): void,
+//
+// }
+
+export abstract class View<T extends Model<K>, K> {
 	constructor(
 		public parent: Element,
-		public model: User
+		public model: T
 	) {
 		this.bindModel()
 	}
