@@ -1,8 +1,10 @@
 import {View} from "./View";
+import {Model} from "../models/Model";
+import {User, UserProps} from "../models/User";
 
 type Callback = () => void;
 
-export class UserForm extends View{
+export class UserForm extends View<User, UserProps>{
 
 	eventsMap(): {[key: string]: Callback} {
 		return {
