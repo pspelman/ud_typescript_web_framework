@@ -8,11 +8,23 @@ type Callback = () => void
 // }
 
 export abstract class View<T extends Model<K>, K> {
+	regions: {[key: string]: Element } = {}
 	constructor(
 		public parent: Element,
 		public model: T
 	) {
 		this.bindModel()
+	}
+
+	regionsMap(): {[key: string]: string } {
+		return {}
+	}
+
+	abstract template(): string
+
+	// abstract eventsMap(): {[key: string]: Callback}
+	eventsMap(): {[key: string]: () => void} {
+		return {}
 	}
 
 	private bindModel() {
@@ -21,8 +33,6 @@ export abstract class View<T extends Model<K>, K> {
 		})
 	}
 
-	abstract eventsMap(): {[key: string]: Callback}
-	abstract template(): string
 
 	bindEvents(fragment: DocumentFragment): void {
 		const eventsMap = this.eventsMap()
@@ -35,12 +45,31 @@ export abstract class View<T extends Model<K>, K> {
 
 	}
 
+	mapRegions = (fragment: DocumentFragment): void => {
+		const regionsMap = this.regionsMap()
+
+		for (let key in regionsMap) {
+			const selector = regionsMap[key]
+			const element = fragment.querySelector(selector)
+			if (element) {
+				this.regions[key] = element
+			}
+		}
+	}
+
+	onRender(): void {} // this will be implemented by components wishing to allow nesting
+
 	render(): void {
 		this.parent.innerHTML = ''
 		// have to take the string and convert it into HTML
 		const templateElement = document.createElement('template')
 		templateElement.innerHTML = this.template()
 		this.bindEvents(templateElement.content)
+
+		this.mapRegions(templateElement.content)
+
+		this.onRender()
+
 		this.parent.append(templateElement.content)
 	}
 
