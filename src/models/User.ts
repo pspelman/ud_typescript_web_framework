@@ -17,7 +17,7 @@ export class User extends Model<UserProps> {
 		return new User(
 			new Attributes<UserProps>(attrs),
 			new Eventing(),
-			new ApiSync(rootUrl)
+			new ApiSync(rootUrl)  // this meets the SYNC interface
 		)
 	}
 
