@@ -13,6 +13,7 @@ export interface UserProps {
 const rootUrl = 'http://localhost:3000/users'
 
 export class User extends Model<UserProps> {
+
 	static newUser(attrs: UserProps): User {
 		return new User(
 			new Attributes<UserProps>(attrs),
@@ -28,6 +29,7 @@ export class User extends Model<UserProps> {
 			(json: UserProps) => User.newUser(json)
 		)
 	}
+
 
 	setRandomAge(): void {
 		let age = Math.round(Math.random() * 100);
